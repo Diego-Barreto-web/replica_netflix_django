@@ -10,7 +10,9 @@ HomeFilmes - Hashflix
     <h1>Essa é a nossa HomeFilmes</h1>
     {% for filme in object_list %}
     <hr>
-    <p>{{filme}}</p>
+    <a href="{% url 'filme:detalhesfilme' filme.id %}">
+        <p>{{filme}}</p>
+    </a>
     <img src="{{ filme.thumb.url }}" class="w-3/12">
     {% endfor %}
 </div>

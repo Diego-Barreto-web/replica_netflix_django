@@ -16,6 +16,13 @@ class Filme(models.Model):
     visualizacoes = models.IntegerField(default=0)
     data_criacao = models.DateTimeField(default=timezone.now)
 
-
     def __str__(self):
         return f'Título: {self.titulo}'
+
+class Episodio(models.Model):
+    filme = models.ForeignKey('Filme', related_name = 'episodios', on_delete = models.CASCADE)
+    titulo = models.CharField(max_length=100)
+    video = models.URLField()
+
+    def __str__(self):
+        return f'{self.filme.titulo} -> {self.titulo}'
