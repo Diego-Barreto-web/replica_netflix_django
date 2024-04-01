@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block titulo %}
+HomeFilmes - Hashflix
+{% endblock  %}
+
+
+{% block content %}
+<div class="py-16">
+    <h1>Essa é a nossa HomeFilmes</h1>
+    {% for filme in object_list %}
+    <hr>
+    <p>{{filme}}</p>
+    <img src="{{ filme.thumb.url }}" class="w-3/12">
+    {% endfor %}
+</div>
+{% endblock  %}
