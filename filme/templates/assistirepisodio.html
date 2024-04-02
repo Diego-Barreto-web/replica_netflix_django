@@ -1,0 +1,24 @@
+{% extends "basevideo.html" %}
+{% load static %}
+
+{% block titulo %}
+{{episodio.titulo}} - Hashflix
+{% endblock  %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/visualizacaoepisodio.css' %}">
+{% endblock  %}
+
+{% block content %}
+
+{% if episodio.video|slice:"-4:" == ".mp4" %}
+    <div>
+        <video id="videoPlayer" controls="" name="media"><source src="{{episodio.video}}" type="video/mp4"></video>
+    </div>
+{% else %}
+<div>
+    <iframe width="1280" height="720" src="{{episodio.video}}" frameborder="0" allowfullscreen></iframe>
+</div>
+{% endif %}
+
+{% endblock  %}

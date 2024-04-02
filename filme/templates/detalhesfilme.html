@@ -11,7 +11,28 @@
     <h1>Essa é o detalhe do filme: {{ object.titulo }}</h1>
     <p>{{ object }}</p>
     <p>{{ object.descricao }}</p>
+    <p>Visualizações: {{ object.visualizacoes }}</p>
+
     <img src="{{ object.thumb.url }}">
+
+    <h2>Episódios</h2>
+    {% for episodio in object.episodios.all %}
+        <a href="{% url 'filme:assistirepisodio' filme.id episodio.id %}" target="blank">
+            <p>Episódio {{ forloop.counter }}: {{ episodio.titulo }} - Visualizações: {{ episodio.visualizacoes }}</p>
+        </a>
+    {% endfor %}
+</div>
+
+<div class="py-16">
+    <h2>Filmes Relacionados</h2>
+
+    {% for filme in filmes_relacionados %}
+        {% if object.titulo != filme.titulo %}
+            <a href="{% url 'filme:detalhesfilme' filme.id %}">
+                <p>{{filme.titulo}}</p>
+            </a>
+        {% endif %}
+    {% endfor %}
 </div>
 
 {% endblock  %}
