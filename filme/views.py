@@ -32,8 +32,8 @@ class DetalhesFilme(DetailView):
         context['filmes_relacionados'] = filmes_relacionados
         return context
     
-class AssistirEpisodio(DetailView):
-    template_name = 'assistirepisodio.html'    
+class TelaEpisodio(DetailView):
+    template_name = 'telaepisodio.html'    
     model = Episodio
 
     def get(self, request, *args, **kwargs):
@@ -48,7 +48,6 @@ class AssistirEpisodio(DetailView):
         context = super().get_context_data(**kwargs)
         episodio_id = self.kwargs['epk']
         episodio = Episodio.objects.get(id=episodio_id)
-
         context['episodio'] = episodio
 
         return context
