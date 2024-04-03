@@ -1,18 +1,26 @@
 from typing import Any
 from django.db.models.query import QuerySet
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Filme, Episodio
 from django.views.generic import TemplateView, ListView, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 class Homepage(TemplateView):
     template_name = 'homepage.html'
 
-class HomeFilmes(ListView):
+    def get(self, request, *args, **kwargs):
+        
+        if request.user.is_authenticated:
+            return redirect('filme:homefilmes')
+        else:
+            return super().get(request, *args, **kwargs)
+
+class HomeFilmes(LoginRequiredMixin, ListView):
     template_name = 'homefilmes.html'
     model = Filme
     # retorna object_list -> lista de itens do modelo
 
-class DetalhesFilme(DetailView):
+class DetalhesFilme(LoginRequiredMixin, DetailView):
     template_name = 'detalhesfilme.html'
     model = Filme
     # object -> 1 item do modelo
@@ -33,7 +41,7 @@ class DetalhesFilme(DetailView):
         context['filmes_relacionados'] = filmes_relacionados
         return context
     
-class TelaEpisodio(DetailView):
+class TelaEpisodio(LoginRequiredMixin, DetailView):
     template_name = 'telaepisodio.html'    
     model = Episodio
 
@@ -56,7 +64,7 @@ class TelaEpisodio(DetailView):
 
         return context
 
-class PesquisaFilme(ListView):
+class PesquisaFilme(LoginRequiredMixin, ListView):
     template_name = 'pesquisa.html'
     model = Filme
 
@@ -68,3 +76,8 @@ class PesquisaFilme(ListView):
         else:
             return None
         
+class PaginaPerfil(LoginRequiredMixin, TemplateView):
+    template_name = 'editarperfil.html'
+
+class CriarConta(TemplateView):
+    template_name = 'criarconta.html'
