@@ -1,4 +1,5 @@
 from typing import Any
+from django.db.models.query import QuerySet
 from django.shortcuts import render
 from .models import Filme, Episodio
 from django.views.generic import TemplateView, ListView, DetailView
@@ -6,7 +7,7 @@ from django.views.generic import TemplateView, ListView, DetailView
 class Homepage(TemplateView):
     template_name = 'homepage.html'
 
-class Homefilmes(ListView):
+class HomeFilmes(ListView):
     template_name = 'homefilmes.html'
     model = Filme
     # retorna object_list -> lista de itens do modelo
@@ -41,6 +42,9 @@ class TelaEpisodio(DetailView):
         episodio = Episodio.objects.get(id=episodio_id)
         episodio.visualizacoes += 1
         episodio.save()
+
+        usuario = request.user
+        usuario.filmes_vistos.add(episodio.filme)
         
         return super().get(request, *args, **kwargs)
 
@@ -52,12 +56,15 @@ class TelaEpisodio(DetailView):
 
         return context
 
-# Create your views here.
-# def homepage(request):
-#     return render(request, "homepage.html")
-    
-# def homefilmes(request):
-#     context = {}
-#     lista_filmes = Filme.objects.all()
-#     context['lista_filmes'] = lista_filmes
-#     return render(request, "homefilmes.html", context)
+class PesquisaFilme(ListView):
+    template_name = 'pesquisa.html'
+    model = Filme
+
+    def get_queryset(self):
+        termo_pesquisa = self.request.GET.get('query')
+        if termo_pesquisa:
+            object_list = self.model.objects.filter(titulo__icontains=termo_pesquisa)
+            return object_list
+        else:
+            return None
+        
