@@ -11,16 +11,18 @@ def lista_filmes_emalta(request):
 
 def filme_destaque(request):
     lista_filmes = []
-    filme = Filme.objects
-    filmes_mais_novos = filme.all().order_by('-data_criacao')[:2]
-    filmes_mais_vistos = filme.all().order_by('-visualizacoes')[:2]
+    filmes_mais_novos = Filme.objects.all().order_by('-data_criacao')[:2]
+    filmes_mais_vistos = Filme.objects.all().order_by('-visualizacoes')[:2]
     
-    if len(filmes_mais_novos) > 0:
-        for filme in filmes_mais_novos:
-            lista_filmes.append(filme)
-    if len(filmes_mais_vistos) > 0:
-        for filme in filmes_mais_vistos:
-            lista_filmes.append(filme)
-    numero_aleatorio = random.randint(0, len(lista_filmes)-1)
+    if filmes_mais_novos.exists():
+        lista_filmes.extend(filmes_mais_novos)
+    if filmes_mais_vistos.exists():
+        lista_filmes.extend(filmes_mais_vistos)
+    
+    if lista_filmes:
+        numero_aleatorio = random.randint(0, len(lista_filmes)-1)
+        filme_destaque = lista_filmes[numero_aleatorio]
+    else:
+        filme_destaque = None
 
-    return {'filme_destaque':lista_filmes[numero_aleatorio]}
+    return {'filme_destaque': filme_destaque}

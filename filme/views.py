@@ -1,12 +1,14 @@
 from typing import Any
 from django.db.models.query import QuerySet
-from django.shortcuts import render, redirect
-from .models import Filme, Episodio
-from django.views.generic import TemplateView, ListView, DetailView
+from django.shortcuts import render, redirect, reverse
+from .models import Filme, Episodio, Usuario
+from .forms import CriarContaForm, FormHomePage
+from django.views.generic import TemplateView, ListView, DetailView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-class Homepage(TemplateView):
+class Homepage(FormView):
     template_name = 'homepage.html'
+    form_class = FormHomePage
 
     def get(self, request, *args, **kwargs):
         
@@ -14,6 +16,14 @@ class Homepage(TemplateView):
             return redirect('filme:homefilmes')
         else:
             return super().get(request, *args, **kwargs)
+        
+    def get_success_url(self):
+        email = self.request.POST.get('email')
+        usuarios = Usuario.objects.filter(email=email)
+        if usuarios:
+            return reverse('filme:login')
+        else:
+            return reverse('filme:criarconta')
 
 class HomeFilmes(LoginRequiredMixin, ListView):
     template_name = 'homefilmes.html'
@@ -79,5 +89,14 @@ class PesquisaFilme(LoginRequiredMixin, ListView):
 class PaginaPerfil(LoginRequiredMixin, TemplateView):
     template_name = 'editarperfil.html'
 
-class CriarConta(TemplateView):
+class CriarConta(FormView):
     template_name = 'criarconta.html'
+    form_class = CriarContaForm
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+    
+
+    def get_success_url(self):
+        return reverse('filme:login')

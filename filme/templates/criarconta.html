@@ -1,9 +1,13 @@
 {% extends "base.html" %}
 {% load static %}
-{% comment %} {% load crispy_forms_tags %} {% endcomment %}
+{% load crispy_forms_tags %}
 
 {% block titulo %}
 Criar Conta
+{% endblock  %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/corhelpform.css' %}">
 {% endblock  %}
 
 {% block content %}
@@ -13,20 +17,18 @@ Criar Conta
         <form method="post">
             {% csrf_token %}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Faça Login para continuar</legend>
-                {% comment %} {{ form|crispy }} {% endcomment %}
+                <legend class="border-bottom mb-4">Crie uma conta para continuar</legend>
+                {{ form|crispy }}
             </fieldset>
-            <button class="bg-red-600 py-1 my-2 px-3 w-full text-white md:text-lg rounded-md" type="submit">Fazer Login</button>
+            <button class="bg-red-600 py-1 px-3 text-white w-full md:text-lg rounded-md" type="submit">Criar Conta</button>
         </form>
-        <small>
-            Não tem uma conta ainda? <p><a href="{% url 'filme:criarconta' %}">Clique aqui para criar uma conta</a></p>
-        </small>
+
     </div>
 </header>
 
 <footer class=" px-5 py-10 ">
     <ul class="flex justify-between items-center">
-
+        
         <li>&copy; 2021</li>
         <li> Feito com Python (Django)</li>
         <li>Hashtag</li>

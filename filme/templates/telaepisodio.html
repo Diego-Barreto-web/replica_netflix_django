@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block titulo %}
-{{episodio.titulo}} - Hashflix
+{{episodio.titulo}} - NetPi
 {% endblock  %}
 
 {% block head %}
@@ -11,14 +11,14 @@
 
 {% block content %}
 
-{% if episodio.video|slice:"-4:" == ".mp4" %}
-    <div>
-        <video id="videoPlayer" controls="" name="media"><source src="{{episodio.video}}" type="video/mp4"></video>
-    </div>
-{% else %}
+{% comment %} {% if episodio.video|slice:"-4:" == ".mp4" %} {% endcomment %}
+<div>
+    <video width="1280" height="720" id="videoPlayer" controls="" name="media"><source src="{{episodio.video}}" type="video/mp4"></video>
+</div>
+{% comment %} {% else %}
 <div>
     <iframe width="1280" height="720" src="{{episodio.video}}" frameborder="0" allowfullscreen></iframe>
 </div>
-{% endif %}
+{% endif %} {% endcomment %}
 
 {% endblock  %}

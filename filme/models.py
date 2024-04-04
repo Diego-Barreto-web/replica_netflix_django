@@ -7,6 +7,7 @@ LISTA_CATEGORIAS = (
     ("PROGRAMACAO", "Programação"),
     ("APRESENTACAO", "Apresentação"),
     ("OUTROS", "Outros"),
+    ("ANIMES", "Animes")
 )
 
 class Filme(models.Model):
@@ -24,7 +25,7 @@ class Episodio(models.Model):
     filme = models.ForeignKey('Filme', related_name = 'episodios', on_delete = models.CASCADE)
     titulo = models.CharField(max_length=100)
     visualizacoes = models.IntegerField(default=0)
-    video = models.URLField()
+    video = models.URLField(max_length=1000)
 
     def __str__(self):
         return f'{self.filme.titulo} -> {self.titulo}'
