@@ -1,1 +1,1 @@
-web: python manage.py migrate && gunicorn ProjetoNetflixDjango.wsgi --log-file -
+web: python manage.py migrate && python manage.py collectstatic && gunicorn ProjetoNetflixDjango.wsgi --log-file -
