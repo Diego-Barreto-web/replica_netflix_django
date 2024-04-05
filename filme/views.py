@@ -93,7 +93,7 @@ class TelaEpisodio(LoginRequiredMixin, DetailView):
                 return '#'
 
         # Chamando a função link_video para obter o link do vídeo
-        context['link_video'] = link_video(self.request, episodio)
+        context['link_video'] = link_video(episodio)
 
         return context
 
