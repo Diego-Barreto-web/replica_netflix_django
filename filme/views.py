@@ -91,7 +91,7 @@ class TelaEpisodio(LoginRequiredMixin, DetailView):
 
         soup = BeautifulSoup(response.content, 'html.parser')
         iframe_element = soup.find('iframe')
-        print(soup + 't4')
+        print(str(soup) + 't4')
         print(iframe_element + 'teste02')
 
         if iframe_element:
