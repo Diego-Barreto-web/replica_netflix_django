@@ -50,4 +50,4 @@ def link_video(request):
     else:
         video_link = iframe_element['#']
 
-    return {'video_link': video_link}
+    return {'link_video': link_video}
