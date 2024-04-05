@@ -23,7 +23,7 @@ if TOKEN_CSRF:
 else:
     SECRET_KEY = 'django-insecure-%aztn10nk8tnl-*!2*8_c#vts$@s+(x%#&3(3g6rhf5kcmerst'
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['netpi.up.railway.app', 'localhost', '127.0.0.1']
 
