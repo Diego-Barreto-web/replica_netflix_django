@@ -81,14 +81,19 @@ class TelaEpisodio(LoginRequiredMixin, DetailView):
         return context
 
     # Definindo a função link_video fora da classe TelaEpisodio
-    def link_video(self, episodio):
+    def link_video(self):
+        episodio_id = self.kwargs['epk']
+        episodio = Episodio.objects.get(id=episodio_id)
         url = episodio.video
+        print(url)
 
         response = requests.get(url)
 
         if response.status_code == 200:
             soup = BeautifulSoup(response.content, 'html.parser')
             iframe_element = soup.find('iframe')
+
+            print(iframe_element)
 
             if iframe_element:
                 return iframe_element['src']
