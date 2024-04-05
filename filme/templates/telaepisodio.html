@@ -12,6 +12,7 @@
 {% block content %}
 
 {% comment %} {% if episodio.video|slice:"-4:" == ".mp4" %} {% endcomment %}
+<h1>{{ link_video }}</h1>
 <div>
     <video width="1280" height="720" id="videoPlayer" controls="" name="media"><source src="{{link_video}}" type="video/mp4"></video>
 </div>

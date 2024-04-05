@@ -29,8 +29,6 @@ def filme_destaque(request):
     else:
         filme_destaque = None
 
-    for film in lista_filmes:
-        print(film)
     return {'filme_destaque': filme_destaque}
 
 # def link_video(request, episodio):
