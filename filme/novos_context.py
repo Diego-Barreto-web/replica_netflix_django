@@ -15,9 +15,11 @@ def filme_destaque(request):
     filmes_mais_vistos = Filme.objects.all().order_by('-visualizacoes')[:2]
     
     if filmes_mais_novos.exists():
-        lista_filmes.extend(filmes_mais_novos)
+        for filme_novo in filmes_mais_novos:
+            lista_filmes.append(filme_novo)
     if filmes_mais_vistos.exists():
-        lista_filmes.extend(filmes_mais_vistos)
+        for filme_visto in filmes_mais_vistos:
+            lista_filmes.append(filme_visto)
     
     if lista_filmes:
         numero_aleatorio = random.randint(0, len(lista_filmes)-1)
@@ -25,4 +27,6 @@ def filme_destaque(request):
     else:
         filme_destaque = None
 
+    for film in lista_filmes:
+        print(film)
     return {'filme_destaque': filme_destaque}
