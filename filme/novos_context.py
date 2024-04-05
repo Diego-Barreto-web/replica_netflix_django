@@ -44,10 +44,10 @@ def link_video(request):
         iframe_element = soup.find('iframe')
 
         if iframe_element:
-            video_link = iframe_element['src']
+            link_video = iframe_element['src']
         else:
-            video_link = iframe_element['#']
+            link_video= iframe_element['#']
     else:
-        video_link = iframe_element['#']
+        link_video = iframe_element['#']
 
     return {'link_video': link_video}
