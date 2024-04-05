@@ -77,14 +77,12 @@ class TelaEpisodio(LoginRequiredMixin, DetailView):
 
         self.link_video(episodio)
 
-
         return context
-    
-    def link_video(self, request, episodio):
+
+    def link_video(self, episodio):
         url = episodio.video
         print(url)
         response = requests.get(url)
-
         print(response)
 
 
