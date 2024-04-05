@@ -1,10 +1,13 @@
 from typing import Any
 from django.db.models.query import QuerySet
+from django.http import HttpRequest
 from django.shortcuts import render, redirect, reverse
 from .models import Filme, Episodio, Usuario
 from .forms import CriarContaForm, FormHomePage
 from django.views.generic import TemplateView, ListView, DetailView, FormView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+import requests
+from bs4 import BeautifulSoup
 
 class Homepage(FormView):
     template_name = 'homepage.html'
@@ -66,11 +69,31 @@ class TelaEpisodio(LoginRequiredMixin, DetailView):
         
         return super().get(request, *args, **kwargs)
 
-    def get_context_data(self, **kwargs: Any):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         episodio_id = self.kwargs['epk']
         episodio = Episodio.objects.get(id=episodio_id)
         context['episodio'] = episodio
+
+        # Definindo a função link_video dentro da classe TelaEpisodio
+        def link_video(request: HttpRequest, episodio: Episodio):
+            url = episodio.video
+
+            response = requests.get(url)
+
+            if response.status_code == 200:
+                soup = BeautifulSoup(response.content, 'html.parser')
+                iframe_element = soup.find('iframe')
+
+                if iframe_element:
+                    return iframe_element['src']
+                else:
+                    return '#'
+            else:
+                return '#'
+
+        # Chamando a função link_video para obter o link do vídeo
+        context['link_video'] = link_video(self.request, episodio)
 
         return context
 
