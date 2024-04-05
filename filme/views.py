@@ -75,27 +75,27 @@ class TelaEpisodio(LoginRequiredMixin, DetailView):
         episodio = Episodio.objects.get(id=episodio_id)
         context['episodio'] = episodio
 
-        # Definindo a função link_video dentro da classe TelaEpisodio
-        def link_video(request: HttpRequest, episodio: Episodio):
-            url = episodio.video
-
-            response = requests.get(url)
-
-            if response.status_code == 200:
-                soup = BeautifulSoup(response.content, 'html.parser')
-                iframe_element = soup.find('iframe')
-
-                if iframe_element:
-                    return iframe_element['src']
-                else:
-                    return '#'
-            else:
-                return '#'
-
         # Chamando a função link_video para obter o link do vídeo
-        context['link_video'] = link_video(episodio)
+        context['link_video'] = self.link_video(episodio)
 
         return context
+
+    # Definindo a função link_video fora da classe TelaEpisodio
+    def link_video(self, episodio):
+        url = episodio.video
+
+        response = requests.get(url)
+
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.content, 'html.parser')
+            iframe_element = soup.find('iframe')
+
+            if iframe_element:
+                return iframe_element['src']
+            else:
+                return '#'
+        else:
+            return '#'
 
 class PesquisaFilme(LoginRequiredMixin, ListView):
     template_name = 'pesquisa.html'

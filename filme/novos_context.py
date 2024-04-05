@@ -1,4 +1,4 @@
-from .models import Filme, Episodio
+from .models import Filme
 import random
 
 
