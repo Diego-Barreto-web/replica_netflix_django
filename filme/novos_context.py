@@ -1,6 +1,9 @@
 from .models import Filme, Episodio
 import random
 
+import requests
+from bs4 import BeautifulSoup
+
 def lista_filmes_recentes(request):
     lista_filmes = Filme.objects.all().order_by('-data_criacao')[0:8]
     return {"lista_filmes_recentes": lista_filmes}
@@ -31,11 +34,9 @@ def filme_destaque(request):
         print(film)
     return {'filme_destaque': filme_destaque}
 
-def link_video(request):
-    import requests
-    from bs4 import BeautifulSoup
+def link_video(request, episodio):
 
-    url = Episodio.video
+    url = Episodio.video  # Use o atributo específico do episódio
 
     response = requests.get(url)
 
@@ -44,10 +45,10 @@ def link_video(request):
         iframe_element = soup.find('iframe')
 
         if iframe_element:
-            video_link = iframe_element['src']
+            link_video = iframe_element['src']
         else:
-            video_link= iframe_element['#']
+            link_video = '#'  # Ou algum valor padrão caso não haja elemento iframe
     else:
-        video_link = iframe_element['#']
+        link_video = '#'  # Ou algum valor padrão em caso de erro na solicitação
 
-    return {'link_video': video_link}
+    return {'link_video': link_video}
