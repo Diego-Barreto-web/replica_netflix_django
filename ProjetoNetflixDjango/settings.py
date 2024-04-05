@@ -23,7 +23,7 @@ if TOKEN_CSRF:
 else:
     SECRET_KEY = 'django-insecure-%aztn10nk8tnl-*!2*8_c#vts$@s+(x%#&3(3g6rhf5kcmerst'
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['netpi.up.railway.app', 'localhost', '127.0.0.1']
 
@@ -66,6 +66,7 @@ TEMPLATES = [
                 'filme.novos_context.lista_filmes_recentes',
                 'filme.novos_context.lista_filmes_emalta',
                 'filme.novos_context.filme_destaque',
+                'filme.novos_context.link_video',
             ],
         },
     },
