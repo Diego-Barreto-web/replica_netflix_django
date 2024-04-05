@@ -78,7 +78,7 @@ class TelaEpisodio(LoginRequiredMixin, DetailView):
         # Chamando a função link_video para obter o link do vídeo
         context['link_video'] = self.link_video(episodio)
 
-        print(self.link_video(episodio)+ 'teste03')
+        print(self.link_video(episodio) + 'teste03')
 
         return context
 
@@ -89,16 +89,13 @@ class TelaEpisodio(LoginRequiredMixin, DetailView):
 
         response = requests.get(url)
 
-        if response.status_code == 200:
-            soup = BeautifulSoup(response.content, 'html.parser')
-            iframe_element = soup.find('iframe')
+        soup = BeautifulSoup(response.content, 'html.parser')
+        iframe_element = soup.find('iframe')
+        print(soup + 't4')
+        print(iframe_element + 'teste02')
 
-            print(iframe_element + 'teste02')
-
-            if iframe_element:
-                return iframe_element['src']
-            else:
-                return '#'
+        if iframe_element:
+            return iframe_element['src']
         else:
             return '#'
 
