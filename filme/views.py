@@ -84,19 +84,25 @@ class TelaEpisodio(LoginRequiredMixin, DetailView):
 
     # Definindo a função link_video fora da classe TelaEpisodio
     def link_video(self, episodio):
-        url = episodio.video
+        url = str(episodio.video)
         print(url + 'teste01')
-
         response = requests.get(url)
 
-        soup = BeautifulSoup(response.content, 'html.parser')
-        iframe_element = soup.find('iframe')
-        print(str(soup) + 't4')
-        print(iframe_element + 'teste02')
 
-        if iframe_element:
-            return iframe_element['src']
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.content, 'html.parser')
+            iframe_element = soup.find('iframe')
+            print(str(soup) + 't4')
+            print(iframe_element + 'teste02')
+
+            if iframe_element:
+                print("URL do vídeo:", iframe_element['src'])
+                return iframe_element['src']
+            else:
+                print("Elemento <iframe> não encontrado na página.")
+                return '#'
         else:
+            print("Falha ao acessar a página:", response.status_code)
             return '#'
 
 class PesquisaFilme(LoginRequiredMixin, ListView):
