@@ -75,15 +75,17 @@ class TelaEpisodio(LoginRequiredMixin, DetailView):
         episodio = Episodio.objects.get(id=episodio_id)
         context['episodio'] = episodio
 
-        self.link_video(episodio)
+        url_link_video = self.enviar_url_para_vm(episodio.video)
+        context['url_link_video'] = url_link_video
+
 
         return context
 
-    def link_video(self, episodio):
-        url = episodio.video
-        print(url)
-        response = requests.get(url)
-        print(response)
+    def enviar_url_para_vm(url):
+        vm_url = 'http://34.95.209.181/processar-url'
+        payload = {'url': url}
+        response = requests.post(vm_url, json=payload)
+        return response.json()['url_processada']
 
 
 class PesquisaFilme(LoginRequiredMixin, ListView):
